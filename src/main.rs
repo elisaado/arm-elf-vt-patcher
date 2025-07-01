@@ -1,4 +1,3 @@
-use clap::ArgAction;
 use clap::Parser;
 use clap_num::maybe_hex;
 use goblin::elf::{Elf, SectionHeader};
@@ -55,6 +54,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("ELF is little endian... Not implemented...".into());
     }
 
+    // goblin doesn't provide the architecture :(
     if obj.architecture() != Architecture::Arm {
         // because we manually do +1 for thumb mode
         return Err("ELF is not ARM architecture... Not implemented...".into());
@@ -131,6 +131,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("Using interrupt address 0x{:x}", (interrupt_address));
 
+    // copy the address into the buffer
     buffer[offset + entry * 4..offset + entry * 4 + 4]
         .copy_from_slice(&interrupt_address.to_le_bytes());
 
@@ -147,6 +148,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 fn read_file(path: &Path) -> std::io::Result<Vec<u8>> {
     let mut file = File::open(path)?;
     let mut buffer = Vec::new();
+
     file.read_to_end(&mut buffer)?;
 
     Ok(buffer)
@@ -154,8 +156,8 @@ fn read_file(path: &Path) -> std::io::Result<Vec<u8>> {
 
 fn write_file(path: &Path, buffer: &[u8]) -> std::io::Result<()> {
     let mut file = File::create(path)?;
-    file.write_all(buffer)?;
 
+    file.write_all(buffer)?;
     file.flush()?;
 
     Ok(())
