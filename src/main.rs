@@ -92,7 +92,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             Some(i) => i,
             None => {
                 return Err(Box::from(
-                    "No zero-addresses found in interrupt list to overwrite. Try specifying an n-th entry to patch manually",
+                    "No zero-addresses found in interrupt list to overwrite. Check if the Vector Table Offset is 0x0, otherwise specify it with -v. You can also try specifying an n-th entry to patch manually",
                 ));
             }
         };
