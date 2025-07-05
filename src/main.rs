@@ -16,13 +16,13 @@ struct Args {
     #[arg(short, long)]
     output_file: String,
 
-    #[arg(short = 'a', long, value_parser=maybe_hex::<u32>, help = "Address of the interrupt to add (prefix with 0x for hex)")]
+    #[arg(short = 'a', long, value_parser=maybe_hex::<u32>, help = "(hex allowed) Address of the interrupt to add (prefix with 0x for hex)")]
     interrupt_address: u32,
 
-    #[arg(short, long, value_parser=maybe_hex::<u32>, help = "Address of the vector table (prefix with 0x for hex) (defaults to 0x0)", default_value_t = 0)]
+    #[arg(short, long, value_parser=maybe_hex::<u32>, help = "(hex allowed) Address of the vector table (prefix with 0x for hex) (defaults to 0x0)", default_value_t = 0)]
     vector_table_offset: u32,
 
-    #[arg(short, long, value_parser=maybe_hex::<u64>, help = "Which entry *in the vector table* to write to (defaults to the first zero entry in the interrupts section of the vector table)")]
+    #[arg(short, long, help = "Which entry *in the vector table* to write to (defaults to the first zero entry in the interrupts section of the vector table)")]
     n_th_entry: Option<usize>,
 
     #[arg(
